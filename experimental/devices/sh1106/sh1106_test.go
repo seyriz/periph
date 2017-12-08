@@ -18,7 +18,7 @@ import (
 	"periph.io/x/periph/conn/i2c/i2ctest"
 	"periph.io/x/periph/conn/spi"
 	"periph.io/x/periph/conn/spi/spitest"
-	"periph.io/x/periph/devices/sh1106/image1bit"
+	"periph.io/x/periph/experimental/devices/sh1106/image1bit"
 )
 
 func Example() {
