@@ -220,69 +220,6 @@ func (s *SmokeTest) run(i2cBus i2c.Bus, spiPort spi.PortCloser, dc gpio.PinOut, 
 
 	for i, d := range s.devices {
 		start := time.Now()
-		if err := d.Scroll(sh1106.Left, sh1106.FrameRate2, 0, -1); err != nil {
-			return err
-		}
-		s.timings[i] = time.Since(start)
-	}
-	s.step("Scroll left: rate = 2")
-
-	for i, d := range s.devices {
-		start := time.Now()
-		if err := d.Scroll(sh1106.Right, sh1106.FrameRate25, 0, -1); err != nil {
-			return err
-		}
-		s.timings[i] = time.Since(start)
-	}
-	s.step("Scroll right: rate = 25")
-
-	for i, d := range s.devices {
-		start := time.Now()
-		if err := d.Scroll(sh1106.UpLeft, sh1106.FrameRate5, 0, -1); err != nil {
-			return err
-		}
-		s.timings[i] = time.Since(start)
-	}
-	s.step("Scroll up left: rate = 5")
-
-	for i, d := range s.devices {
-		start := time.Now()
-		if err := d.Scroll(sh1106.UpRight, sh1106.FrameRate128, 0, -1); err != nil {
-			return err
-		}
-		s.timings[i] = time.Since(start)
-	}
-	s.step("Scroll up right: rate = 128")
-
-	for i, d := range s.devices {
-		start := time.Now()
-		if err := d.Scroll(sh1106.Left, sh1106.FrameRate2, 0, 16); err != nil {
-			return err
-		}
-		s.timings[i] = time.Since(start)
-	}
-	s.step("Split scroll top 16 pixels")
-
-	for i, d := range s.devices {
-		start := time.Now()
-		if err := d.Scroll(sh1106.Right, sh1106.FrameRate2, 16, -1); err != nil {
-			return err
-		}
-		s.timings[i] = time.Since(start)
-	}
-	s.step("Split scroll 16-64 pixels")
-
-	for i, d := range s.devices {
-		start := time.Now()
-		if err := d.StopScroll(); err != nil {
-			return err
-		}
-		s.timings[i] = time.Since(start)
-	}
-	s.step("Stop scroll")
-
-	for i, d := range s.devices {
-		start := time.Now()
 		d.Draw(d.Bounds(), imgBunny1bitLarge, image.Point{})
 		if err := d.Err(); err != nil {
 			return err
