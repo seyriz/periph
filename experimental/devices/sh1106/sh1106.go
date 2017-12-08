@@ -105,7 +105,7 @@ func NewSPI(p spi.Port, dc gpio.PinOut, w, h int, rotated bool) (*Dev, error) {
 	} else if err := dc.Out(gpio.Low); err != nil {
 		return nil, err
 	}
-	c, err := p.DevParams(3300000, spi.Mode0, bits)
+	c, err := p.Connect(3300000, spi.Mode0, bits)
 	if err != nil {
 		return nil, err
 	}
@@ -342,17 +342,20 @@ func (d *Dev) drawInternal(next []byte) error {
 
 func (d *Dev) sendData(c []byte) error {
 	if d.spi {
+		// this is in SPI mode
 		// 4-wire SPI.
 		if err := d.dc.Out(gpio.High); err != nil {
 			return err
 		}
 		return d.c.Tx(c, nil)
 	}
+	// this is in I2C mode
 	return d.c.Tx(append([]byte{i2cData}, c...), nil)
 }
 
 func (d *Dev) sendCommand(c []byte) error {
 	if d.spi {
+		// this is in SPI mode
 		if d.dc == nil {
 			// 3-wire SPI.
 			return errors.New("sh1106: 3-wire SPI mode is not yet implemented")
@@ -363,6 +366,7 @@ func (d *Dev) sendCommand(c []byte) error {
 		}
 		return d.c.Tx(c, nil)
 	}
+	// this is in I2C mode
 	return d.c.Tx(append([]byte{i2cCmd}, c...), nil)
 }
 
